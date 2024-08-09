@@ -3,8 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { AuthSignOutThunk } from '@/lib/redux/features/auth/auth.thunk';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hook';
-import { deleteCookie, setCookie } from 'cookies-next';
-import { Loader2 } from "lucide-react";
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 

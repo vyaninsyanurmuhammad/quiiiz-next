@@ -2,6 +2,7 @@
 
 import { AuthCallbackThunk } from '@/lib/redux/features/auth/auth.thunk';
 import { useAppDispatch } from '@/lib/redux/hook';
+import { Detective } from '@phosphor-icons/react/dist/ssr';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
@@ -20,8 +21,8 @@ const CallbackPage = () => {
         if (access_token) {
           // Redirect to URL with query parameters
           dispatch(AuthCallbackThunk({ access_token })).then((data) => {
-            router.push("/")
-        });
+            router.push('/');
+          });
         }
       }
     };
@@ -29,7 +30,13 @@ const CallbackPage = () => {
     handleRedirect();
   }, [router]);
 
-  return <div>loading...</div>;
+  return (
+    <div className="flex h-svh w-svw items-center justify-center">
+      <div className="relative flex h-fit w-fit items-center justify-center">
+        <Detective className="absolute z-10 h-16 w-16 animate-bounce [animation-duration:1000ms]" />
+      </div>
+    </div>
+  );
 };
 
 export default CallbackPage;

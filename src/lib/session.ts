@@ -40,8 +40,6 @@ export async function refreshSession(request: NextRequest) {
       const res = NextResponse.next();
 
       res.cookies.set('session', jwt, {
-        httpOnly: true,
-        path: '/',
         expires,
       });
 
