@@ -24,6 +24,8 @@ const CallbackPage = () => {
             router.push('/');
           });
         }
+      } else {
+        router.push('/auth/signin');
       }
     };
 
