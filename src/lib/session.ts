@@ -5,13 +5,6 @@ import { cookies } from 'next/headers';
 import { axiosAPI } from './axios';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function getSessionClient() {
-  const session = getCookie('session');
-
-  if (!session) return null;
-  return await decodeJwt(session);
-}
-
 export async function getSessionServer() {
   const session = cookies().get('session')?.value;
 

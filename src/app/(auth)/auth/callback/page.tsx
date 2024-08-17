@@ -33,11 +33,11 @@ const CallbackPage = () => {
   }, [router]);
 
   return (
-    <div className="flex h-svh w-svw items-center justify-center">
+    <main className="flex h-svh w-svw items-center justify-center">
       <div className="relative flex h-fit w-fit items-center justify-center">
         <Detective className="absolute z-10 h-16 w-16 animate-bounce [animation-duration:1000ms]" />
       </div>
-    </div>
+    </main>
   );
 };
 

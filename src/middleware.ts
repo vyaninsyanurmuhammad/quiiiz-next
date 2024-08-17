@@ -9,6 +9,8 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(route),
   );
 
+  isLoggedIn && console.log(new Date(isLoggedIn.exp!).toLocaleString());
+
   if (!isLoggedIn && isProtectedRoute) {
     // Redirect to login if not logged in and accessing a protected route
     const loginUrl = new URL('/auth/signin', request.url);

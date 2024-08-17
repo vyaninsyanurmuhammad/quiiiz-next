@@ -4,41 +4,61 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { SiGooglegemini, SiNestjs, SiNextdotjs, SiPrisma, SiShadcnui, SiSupabase, SiTailwindcss, SiTypescript } from 'react-icons/si';
+
+const IconComponent = ({ icon }: { icon: any }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    role="img"
+    fill="currentColor"
+    dangerouslySetInnerHTML={{ __html: icon.path }}
+    width={24}
+    height={24}
+  />
+);
 
 const HeroSection = () => {
   const technologies = [
     {
       image: 'nextjs.png',
       title: 'Next.js',
+      icon: <SiNextdotjs />,
     },
-
     {
       image: 'shadcn.png',
       title: 'Shadcn/ui',
+      icon: <SiShadcnui />,
     },
     {
       image: 'openai.png',
-      title: 'Open AI',
+      title: 'Gemini',
+      icon: <SiGooglegemini />,
     },
     {
       image: 'prisma.png',
       title: 'Prisma',
+      icon: <SiPrisma />,
     },
     {
       image: 'tailwind.png',
       title: 'Tailwind css',
+      icon: <SiTailwindcss />,
     },
     {
       image: 'nestjs.png',
       title: 'Nest.js',
+      icon: <SiNestjs />,
     },
     {
       image: 'supabase.png',
       title: 'Supabase',
+      icon: <SiSupabase />,
     },
     {
       image: 'typescript.png',
       title: 'TypeScript',
+      icon: <SiTypescript />,
     },
   ];
 
@@ -74,18 +94,12 @@ const HeroSection = () => {
             <p className="font-semibold">Built with</p>
 
             <div className="grid max-w-[840px] grid-cols-2 grid-rows-2 gap-x-4 gap-y-6 md:grid-cols-4 md:gap-y-3">
-              {technologies.map(({ image, title }, index) => (
+              {technologies.map(({ image, title, icon }, index) => (
                 <div
                   key={`${title}-${index}`}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-3"
                 >
-                  <Image
-                    className="rounded-md"
-                    src={`/${image}`}
-                    height={36}
-                    width={36}
-                    alt={`tech-${index}`}
-                  />
+                  {icon}
                   <p>{title}</p>
                 </div>
               ))}
