@@ -28,8 +28,6 @@ axiosAPI.interceptors.response.use(
 
       const expires = new Date(payload.exp! * 1000);
 
-      console.log(expires.toLocaleString());
-
       setCookie('session', token, {
         expires,
       });

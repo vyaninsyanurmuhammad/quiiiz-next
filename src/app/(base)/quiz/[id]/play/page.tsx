@@ -67,7 +67,6 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
           answer: selectedAnswer,
         }),
       ).then((data) => {
-        console.log(data.payload);
         if (!data.payload.data) {
           // router.push(`/`);
         } else {
@@ -83,7 +82,6 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
       dispatch(
         QuizFinishThunk({ gameId: playState.quiz.gameId, quizId: params.id }),
       ).then((data) => {
-        console.log(data.payload);
         if (!data.payload.data) {
           // router.push(`/`);
         } else {
@@ -95,7 +93,6 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
       });
     } else {
       dispatch(QuizStartThunk({ quizId: params.id })).then((data) => {
-        console.log(data.payload);
         if (!data.payload.data) {
           // router.push(`/`);
         } else {
@@ -115,7 +112,6 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     if (!playState.quiz?.question || isLoading) {
       dispatch(QuizStartThunk({ quizId: params.id })).then((data) => {
-        console.log(data.payload);
         if (!data.payload.data) {
           // router.push(`/`);
         } else {

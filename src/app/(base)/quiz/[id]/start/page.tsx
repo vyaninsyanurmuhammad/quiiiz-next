@@ -34,7 +34,6 @@ const QuizStartPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     if (!playState.quiz || isLoading) {
       dispatch(QuizFindThunk({ quizId: params.id })).then((data) => {
-        console.log(data.payload.data);
         if (!data.payload.data) {
           router.push(`/`);
         } else {

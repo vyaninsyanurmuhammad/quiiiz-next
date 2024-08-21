@@ -24,7 +24,6 @@ const QuizSummaryPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     if (isLoading) {
       dispatch(QuizSummaryThunk({ quizId: params.id })).then((data) => {
-        console.log(data.payload.data);
         if (data.payload.data) {
           setIsloading(false);
         }

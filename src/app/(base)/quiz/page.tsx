@@ -21,7 +21,6 @@ const QuizPage = () => {
   useEffect(() => {
     if (isLoading || quizState.isLoading) {
       dispatch(QuizFindAllThunk()).then((data) => {
-        console.log(data.payload.data);
         if (data.payload.data) {
           setIsloading(false);
         }

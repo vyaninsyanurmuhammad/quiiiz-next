@@ -15,7 +15,6 @@ const WordCloudCustom: React.FC<CloudProps> = ({ words }) => {
   const handleResize = () => {
     if (ref.current) {
       setWidth(ref.current.clientWidth);
-      console.log('Current width:', ref.current.clientWidth);
     }
   };
 

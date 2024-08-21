@@ -65,7 +65,6 @@ const QuizGeneratePage = () => {
   function onSubmit(values: yup.InferType<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
 
     const { topic, totalQuestion: amount } = values;
 
@@ -74,8 +73,6 @@ const QuizGeneratePage = () => {
 
   const onCreateQuiz = (topic: string, amount: number) =>
     dispatch(QuizCreateThunk({ topic, amount })).then((data) => {
-      console.log(data.payload);
-
       if (data.payload.error) {
         toast({
           title: 'Wah, ada yang salah!',

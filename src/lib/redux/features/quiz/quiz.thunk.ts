@@ -116,8 +116,6 @@ export const QuizFindAllThunk = createAsyncThunk('quiz/findAll', async () => {
   try {
     const response = await axiosAPI.get(`/quiz`);
 
-    console.log(response.data);
-
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

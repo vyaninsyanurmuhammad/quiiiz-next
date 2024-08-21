@@ -32,7 +32,6 @@ const TopTopicSection = () => {
   useEffect(() => {
     if (isLoading) {
       dispatch(QuizFindAllTopicsThunk()).then((data) => {
-        console.log(data.payload.data);
         if (data.payload.data) {
           setIsloading(false);
         }
