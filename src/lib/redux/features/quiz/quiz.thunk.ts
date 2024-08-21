@@ -17,6 +17,7 @@ export const QuizCreateThunk = createAsyncThunk(
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return {
+          status: error.response?.status,
           error: error.response?.data.message,
         };
       }
@@ -99,6 +100,58 @@ export const QuizFinishThunk = createAsyncThunk(
       const response = await axiosAPI.post(`/quiz/${quizId}/finish`, {
         gameId,
       });
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return {
+          error: error.response?.data.message,
+        };
+      }
+    }
+  },
+);
+
+export const QuizFindAllThunk = createAsyncThunk('quiz/findAll', async () => {
+  try {
+    const response = await axiosAPI.get(`/quiz`);
+
+    console.log(response.data);
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return {
+        error: error.response?.data.message,
+      };
+    }
+  }
+});
+
+export const QuizFindAllTopicsThunk = createAsyncThunk(
+  'quiz/findAllTopics',
+  async () => {
+    try {
+      const response = await axiosAPI.get(`/quiz/find/topics`);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return {
+          error: error.response?.data.message,
+        };
+      }
+    }
+  },
+);
+
+export const QuizSummaryThunk = createAsyncThunk(
+  'quiz/summary',
+  async (req: { quizId: string }) => {
+    try {
+      const { quizId } = req;
+
+      const response = await axiosAPI.get(`/quiz/${quizId}/summary`);
 
       return response.data;
     } catch (error) {

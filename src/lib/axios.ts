@@ -26,8 +26,6 @@ axiosAPI.interceptors.response.use(
     if (token) {
       const payload = await decodeJwt(token);
 
-      console.log(new Date(payload.exp!).toLocaleString());
-
       const expires = new Date(payload.exp! * 1000);
 
       console.log(expires.toLocaleString());

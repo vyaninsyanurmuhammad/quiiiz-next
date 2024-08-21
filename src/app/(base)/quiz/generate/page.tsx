@@ -1,5 +1,6 @@
 'use client';
 
+import Button3d from '@/components/button-3d';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -18,20 +19,28 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { setLoading } from '@/lib/redux/features/quiz/quiz.slice';
 import { QuizCreateThunk } from '@/lib/redux/features/quiz/quiz.thunk';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hook';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Detective } from '@phosphor-icons/react/dist/ssr';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { SiGooglegemini } from 'react-icons/si';
 import * as yup from 'yup';
+import { useToast } from '@/components/ui/use-toast';
+import { ToastAction } from '@/components/ui/toast';
 
 const QuizGeneratePage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { toast } = useToast();
 
   const { playState } = useAppSelector((state) => state.quizSlice);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const formSchema = yup.object({
     topic: yup
@@ -59,12 +68,48 @@ const QuizGeneratePage = () => {
     console.log(values);
 
     const { topic, totalQuestion: amount } = values;
+
+    onCreateQuiz(topic, amount);
+  }
+
+  const onCreateQuiz = (topic: string, amount: number) =>
     dispatch(QuizCreateThunk({ topic, amount })).then((data) => {
-      console.log(data.payload.data);
+      console.log(data.payload);
+
+      if (data.payload.error) {
+        toast({
+          title: 'Wah, ada yang salah!',
+          description:
+            'Terjadi masalah dengan permintaan Anda. Atau mungkin coba topik lain.',
+          action: (
+            <ToastAction
+              altText="Coba lagi"
+              onClick={() => onCreateQuiz(topic, amount)}
+            >
+              Coba lagi
+            </ToastAction>
+          ),
+        });
+      }
+
       if (data.payload.data) {
+        setIsLoading(true);
         router.push(`/quiz/${data.payload.data.quizId}/start`);
       }
     });
+
+  useEffect(() => {
+    dispatch(setLoading(false));
+  }, []);
+
+  if (isLoading) {
+    return (
+      <main className="flex h-svh w-full items-center justify-center">
+        <div className="relative flex h-fit w-fit items-center justify-center">
+          <Detective className="absolute z-10 h-16 w-16 animate-bounce [animation-duration:1000ms]" />
+        </div>
+      </main>
+    );
   }
 
   return (
@@ -112,16 +157,18 @@ const QuizGeneratePage = () => {
                   )}
                 />
               </div>
-              <Button
-                className="flex w-full gap-2"
-                type="submit"
+              <Button3d
+                className="flex w-full items-center justify-center gap-2 bg-[#84d8ff]"
+                classNameShadow="bg-[#69accc] w-full"
+                classNameFrame="w-full"
                 disabled={playState.isLoading}
+                type="submit"
               >
                 {playState.isLoading && (
                   <Loader2 className="h-5 w-5 animate-spin" />
                 )}{' '}
-                Generate
-              </Button>
+                Generate <SiGooglegemini className="text-white" />
+              </Button3d>
             </form>
           </Form>
         </CardContent>

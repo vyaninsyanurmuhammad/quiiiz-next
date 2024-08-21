@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Detective } from '@phosphor-icons/react/dist/ssr';
 import React from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 const NavigationSignButton = dynamic(
   () => import('@/app/(base)/_components/ui/navigation-sign-button'),
@@ -21,10 +22,12 @@ const NavigationBar = ({ className }: { className?: string }) => {
       )}
     >
       <div className="container flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Detective className="h-8 w-8" />
-          <p className="text-xl font-semibold">Quiiiz</p>
-        </div>
+        <Link href={'/'}>
+          <div className="flex items-center gap-2">
+            <Detective className="h-8 w-8" />
+            <p className="text-xl font-semibold">Quiiiz</p>
+          </div>
+        </Link>
         <NavigationSignButton />
       </div>
     </div>

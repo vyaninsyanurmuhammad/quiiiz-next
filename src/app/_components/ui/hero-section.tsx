@@ -4,7 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { SiGooglegemini, SiNestjs, SiNextdotjs, SiPrisma, SiShadcnui, SiSupabase, SiTailwindcss, SiTypescript } from 'react-icons/si';
+import {
+  SiGooglegemini,
+  SiNestjs,
+  SiNextdotjs,
+  SiPrisma,
+  SiShadcnui,
+  SiSupabase,
+  SiTailwindcss,
+  SiTypescript,
+} from 'react-icons/si';
 
 const IconComponent = ({ icon }: { icon: any }) => (
   <svg
@@ -23,42 +32,42 @@ const HeroSection = () => {
     {
       image: 'nextjs.png',
       title: 'Next.js',
-      icon: <SiNextdotjs />,
+      icon: <SiNextdotjs className=" h-5 w-5" />,
     },
     {
       image: 'shadcn.png',
       title: 'Shadcn/ui',
-      icon: <SiShadcnui />,
+      icon: <SiShadcnui className=" h-5 w-5" />,
     },
     {
       image: 'openai.png',
       title: 'Gemini',
-      icon: <SiGooglegemini />,
+      icon: <SiGooglegemini className="text-[#8E75B2] h-5 w-5" />,
     },
     {
       image: 'prisma.png',
       title: 'Prisma',
-      icon: <SiPrisma />,
+      icon: <SiPrisma className=" h-5 w-5" />,
     },
     {
       image: 'tailwind.png',
       title: 'Tailwind css',
-      icon: <SiTailwindcss />,
+      icon: <SiTailwindcss className="text-[#06B6D4] h-5 w-5" />,
     },
     {
       image: 'nestjs.png',
       title: 'Nest.js',
-      icon: <SiNestjs />,
+      icon: <SiNestjs className="text-[#E0234E] h-5 w-5" />,
     },
     {
       image: 'supabase.png',
       title: 'Supabase',
-      icon: <SiSupabase />,
+      icon: <SiSupabase className="text-[#3FCF8E] h-5 w-5" />,
     },
     {
       image: 'typescript.png',
       title: 'TypeScript',
-      icon: <SiTypescript />,
+      icon: <SiTypescript className="text-[#3178C6] h-5 w-5" />,
     },
   ];
 

@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/sheet';
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 import { resetAnswer, resetQuiz } from '@/lib/redux/features/quiz/quiz.slice';
+import Button3d from '@/components/button-3d';
 
 const QuizPlayPage = ({ params }: { params: { id: string } }) => {
   const dispatch = useAppDispatch();
@@ -54,7 +55,7 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
   };
 
   const onCheckAnswer = () => {
-    setIsLoading(true);
+    // setIsLoading(true);
 
     playState.quiz?.question &&
       selectedAnswer &&
@@ -71,42 +72,48 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
           // router.push(`/`);
         } else {
           setOpenSheet(true);
-          setIsLoading(false);
+          // setIsLoading(false);
         }
       });
   };
 
   const onLanjutkan = () => {
-    setIsLoading(true);
-    playState.quiz?.amount === playState.quiz?.number && playState.quiz
-      ? dispatch(
-          QuizFinishThunk({ gameId: playState.quiz.gameId, quizId: params.id }),
-        ).then((data) => {
-          console.log(data.payload);
-          if (!data.payload.data) {
-            // router.push(`/`);
-          } else {
-            setOpenSheet(false);
-            setIsLoading(false);
-            router.push(`/quiz`);
+    if (playState.quiz?.amount === playState.quiz?.number && playState.quiz) {
+      setIsLoading(true);
+      dispatch(
+        QuizFinishThunk({ gameId: playState.quiz.gameId, quizId: params.id }),
+      ).then((data) => {
+        console.log(data.payload);
+        if (!data.payload.data) {
+          // router.push(`/`);
+        } else {
+          setOpenSheet(false);
+          router.push(`/quiz/${params.id}/summary`);
+          // dispatch(resetAnswer());
+          // dispatch(resetQuiz());
+        }
+      });
+    } else {
+      dispatch(QuizStartThunk({ quizId: params.id })).then((data) => {
+        console.log(data.payload);
+        if (!data.payload.data) {
+          // router.push(`/`);
+        } else {
+          setOpenSheet(false);
+          // setIsLoading(false);
+
+          setTimeout(() => {
             dispatch(resetAnswer());
-            dispatch(resetQuiz());
-          }
-        })
-      : dispatch(QuizStartThunk({ quizId: params.id })).then((data) => {
-          console.log(data.payload);
-          if (!data.payload.data) {
-            // router.push(`/`);
-          } else {
-            setOpenSheet(false);
-            setIsLoading(false);
-            dispatch(resetAnswer());
-          }
-        });
+          }, 800);
+        }
+      });
+    }
+
+    setSelectedAnswer(undefined);
   };
 
   useEffect(() => {
-    if (!playState.quiz?.question) {
+    if (!playState.quiz?.question || isLoading) {
       dispatch(QuizStartThunk({ quizId: params.id })).then((data) => {
         console.log(data.payload);
         if (!data.payload.data) {
@@ -145,64 +152,90 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
     );
   }
 
-  if (isLoading) {
-    return (
-      <main className="flex h-svh w-full items-center justify-center">
-        <div className="relative flex h-fit w-fit items-center justify-center">
-          <Detective className="absolute z-10 h-16 w-16 animate-bounce [animation-duration:1000ms]" />
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main className="container flex min-h-svh w-full items-center justify-center pb-8 pt-24">
       {playState.quiz ? (
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <p className="text-sm">Topic</p>
-              <Badge>{playState.quiz.topic}</Badge>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-end justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <div className="flex flex-col gap-2">
+                  <p className="text-lg font-semibold">
+                    {playState.quiz.topic}
+                  </p>
+                  <p className="text-sm">
+                    {playState.quiz.number} dari {playState.quiz.amount}{' '}
+                    pertanyaan
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Timer className="h-4 w-4" />
+                <p className="text-sm">{formatTimeDelta(elapsedSeconds)}</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Timer className="h-4 w-4" />
-              <p className="text-sm">{formatTimeDelta(elapsedSeconds)}</p>
-            </div>
-          </div>
-          <Card className="min-w-full max-w-[640px] lg:min-w-[640px]">
-            <CardContent className="flex flex-row items-center gap-5 pt-6">
-              <div className="flex flex-col">
-                <p>{playState.quiz.number}</p>
-                <Separator orientation="horizontal" />
-                <p>{playState.quiz.amount}</p>
-              </div>{' '}
-              <p>{playState.quiz.question?.question}</p>
-            </CardContent>
-          </Card>
-          <Card className="min-w-full max-w-[640px] lg:min-w-[640px]">
-            <CardContent className="flex flex-col items-center gap-5 pt-6">
-              {playState.quiz.question ? (
-                options.map((option, index) => (
-                  <Button
-                    key={`${option}-${index}`}
-                    className="flex w-full justify-start gap-4 overflow-hidden p-0"
-                    variant={option === selectedAnswer ? 'default' : 'outline'}
-                    onClick={() => onSelectAnswer(option)}
-                  >
-                    <div className="flex h-full w-8 items-center justify-center bg-black text-white">
-                      {index + 1}
-                    </div>
-                    <div>{option}</div>
-                  </Button>
-                ))
-              ) : (
-                <p>not found</p>
-              )}
-            </CardContent>
-          </Card>
-          <Button disabled={!selectedAnswer} onClick={onCheckAnswer}>
+            <Card className="min-w-full max-w-[640px] lg:min-w-[640px]">
+              <CardContent className="flex flex-row items-center gap-5 pt-6">
+                <p>{playState.quiz.question?.question}</p>
+              </CardContent>
+            </Card>
+            <Card className="min-w-full max-w-[640px] lg:min-w-[640px]">
+              <CardContent className="grid grid-rows-4 grid-cols-1 gap-5 pt-6">
+                {playState.quiz.question ? (
+                  options.map((option, index) => (
+                    // <Button
+                    //   key={`${option}-${index}`}
+                    //   className="flex w-full justify-start gap-4 overflow-hidden p-0"
+                    //   variant={option === selectedAnswer ? 'default' : 'outline'}
+                    //   onClick={() => onSelectAnswer(option)}
+                    // >
+                    //   <div className="flex h-full w-8 items-center justify-center bg-black text-white">
+                    //     {index + 1}
+                    //   </div>
+                    //   <div>{option}</div>
+                    // </Button>
+
+                    <Button3d
+                      key={`${option}-${index}`}
+                      className={cn(
+                        'flex w-full min-h-10 h-full text-start py-2 items-center justify-start gap-2 border-[1px] !bg-white',
+                        option === selectedAnswer
+                          ? 'border-[#1cb0f6] text-[#1cb0f6]'
+                          : 'border-slate-300 text-slate-900',
+                      )}
+                      classNameShadow={cn(
+                        option === selectedAnswer
+                          ? 'bg-[#1cb0f6]'
+                          : 'bg-slate-300',
+                      )}
+                      classNameFrame="w-full"
+                      onClick={() => onSelectAnswer(option)}
+                    >
+                      {option}
+                    </Button3d>
+                  ))
+                ) : (
+                  <p>not found</p>
+                )}
+              </CardContent>
+            </Card>
+            {/* <Button disabled={!selectedAnswer} onClick={onCheckAnswer}>
             Periksa
-          </Button>
+          </Button> */}
+          </div>
+
+          <Button3d
+            className={cn(
+              'flex w-full items-center justify-center gap-2',
+              selectedAnswer && '!bg-[#58cc02]',
+            )}
+            classNameShadow={cn(selectedAnswer && '!bg-[#58a700]')}
+            classNameFrame="w-full"
+            disabled={!selectedAnswer}
+            onClick={onCheckAnswer}
+          >
+            Periksa
+          </Button3d>
         </div>
       ) : (
         <p>not found</p>
@@ -220,7 +253,7 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
         >
           <DialogTitle></DialogTitle>
           <DialogDescription></DialogDescription>
-          <div className="-ml-4 flex min-w-full max-w-[640px] flex-col gap-4 pb-12 pt-6 lg:min-w-[640px]">
+          <div className="-ml-4 flex min-w-full max-w-[640px] flex-col gap-4 px-10 pb-12 pt-6 sm:min-w-[640px] lg:min-w-[640px]">
             <p
               className={cn(
                 'text-2xl font-bold',
@@ -229,14 +262,24 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
                   : 'text-[#e73035]',
               )}
             >
-              {playState.answer?.isCorrect ? 'Bagus!' : 'Kurang Beruntung!'}
+              {playState.answer?.isCorrect ? 'Bagus!' : 'Jangan Menyerah!'}
             </p>
 
-            <Button className="w-full" onClick={onLanjutkan}>
+            <Button3d
+              className={cn(
+                'flex w-full items-center justify-center gap-2',
+                playState.answer?.isCorrect ? 'bg-[#58cc02]' : 'bg-[#ff4b4b]',
+              )}
+              classNameShadow={cn(
+                playState.answer?.isCorrect ? 'bg-[#58a700]' : 'bg-[#ea2c2b]',
+              )}
+              classNameFrame="w-full"
+              onClick={onLanjutkan}
+            >
               {playState.quiz?.amount === playState.quiz?.number
                 ? 'Finish'
                 : 'Lanjutkan'}
-            </Button>
+            </Button3d>
           </div>
         </SheetContent>
       </Sheet>

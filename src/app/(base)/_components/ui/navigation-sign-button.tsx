@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hook';
 import { Loader2 } from 'lucide-react';
 import { AuthSignOutThunk } from '@/lib/redux/features/auth/auth.thunk';
+import { deleteCookie } from 'cookies-next';
 
 const NavigationSignButton = () => {
   const router = useRouter();
@@ -20,7 +21,8 @@ const NavigationSignButton = () => {
 
   const onSignOutClickHandler = () => {
     dispatch(AuthSignOutThunk()).then(() => {
-      router.push('/auth/signin');
+      deleteCookie('session');
+      router.push('/');
     });
   };
 

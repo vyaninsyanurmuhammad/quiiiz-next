@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -8,81 +10,69 @@ import {
 } from '@/components/ui/card';
 import dynamic from 'next/dynamic';
 import { Separator } from '@/components/ui/separator';
-import WordCloudCustom from "@/components/word-cloud";
+import WordCloudCustom from '@/components/word-cloud';
+import Button3d from '@/components/button-3d';
+import Link from 'next/link';
+import { ListVideo } from 'lucide-react';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hook';
+import { QuizFindAllTopicsThunk } from '@/lib/redux/features/quiz/quiz.thunk';
+import { Detective } from '@phosphor-icons/react/dist/ssr';
 
 // const WordCloudCustom = dynamic(() => import('@/components/word-cloud'), {
 //   ssr: false,
 // });
 
-const words = [
-  { text: 'React', value: 50 },
-  { text: 'Next.js', value: 45 },
-  { text: 'JavaScript', value: 70 },
-  { text: 'TypeScript', value: 60 },
-  { text: 'Web Development', value: 55 },
-  { text: 'Node.js', value: 40 },
-  { text: 'Frontend', value: 35 },
-  { text: 'Backend', value: 30 },
-  { text: 'API', value: 25 },
-  { text: 'GraphQL', value: 20 },
-  { text: 'CSS', value: 50 },
-  { text: 'HTML', value: 45 },
-  { text: 'Tailwind CSS', value: 30 },
-  { text: 'Bootstrap', value: 25 },
-  { text: 'Django', value: 15 },
-  { text: 'Flask', value: 20 },
-  { text: 'Ruby on Rails', value: 10 },
-  { text: 'SQL', value: 40 },
-  { text: 'NoSQL', value: 35 },
-  { text: 'MongoDB', value: 30 },
-  { text: 'PostgreSQL', value: 25 },
-  { text: 'Firebase', value: 20 },
-  { text: 'AWS', value: 15 },
-  { text: 'Docker', value: 30 },
-  { text: 'Kubernetes', value: 25 },
-  { text: 'CI/CD', value: 20 },
-  { text: 'DevOps', value: 30 },
-  { text: 'Agile', value: 25 },
-  { text: 'Scrum', value: 20 },
-  { text: 'Testing', value: 15 },
-  { text: 'TDD', value: 10 },
-  { text: 'BFF', value: 15 },
-  { text: 'Design Patterns', value: 25 },
-  { text: 'REST', value: 20 },
-  { text: 'OAuth', value: 15 },
-  { text: 'JWT', value: 10 },
-  { text: 'GraphQL', value: 25 },
-  { text: 'WebSocket', value: 20 },
-  { text: 'Progressive Web Apps', value: 15 },
-  { text: 'Service Workers', value: 10 },
-  { text: 'LocalStorage', value: 20 },
-  { text: 'IndexedDB', value: 15 },
-  { text: 'Session Storage', value: 10 },
-  { text: 'WebAssembly', value: 20 },
-  { text: 'Microservices', value: 25 },
-  { text: 'Serverless', value: 30 },
-  { text: 'Monolithic', value: 15 },
-  { text: 'Server-Side Rendering', value: 20 },
-  { text: 'Static Site Generation', value: 25 },
-  { text: 'Progressive Enhancement', value: 20 },
-  { text: 'Responsive Design', value: 25 },
-  { text: 'Accessibility', value: 30 },
-];
-
 const TopTopicSection = () => {
+  const dispatch = useAppDispatch();
+
+  const { homeState } = useAppSelector((state) => state.quizSlice);
+
+  const [isLoading, setIsloading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(QuizFindAllTopicsThunk()).then((data) => {
+        console.log(data.payload.data);
+        if (data.payload.data) {
+          setIsloading(false);
+        }
+      });
+    }
+  }, [isLoading]);
+
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>
-          <p className="text-2xl font-bold">Top Topic 🧩</p>
-        </CardTitle>
+        <div className="flex flex-row justify-between">
+          <CardTitle>
+            <p className="text-2xl font-bold">Top Topic 🧩</p>
+          </CardTitle>
+          <Link href={`/quiz`}>
+            <Button3d
+              className="flex items-center gap-2 bg-[#58cc02]"
+              classNameShadow="bg-[#58a700]"
+            >
+              See the list
+              <ListVideo />
+            </Button3d>
+          </Link>
+        </div>
+
         <CardDescription></CardDescription>
         <Separator orientation="horizontal" />
       </CardHeader>
 
       <CardContent>
         <div className="flex flex-col items-start gap-2">
-          <WordCloudCustom words={words} />
+          {isLoading ? (
+            <div className="flex h-[400px] w-full items-center justify-center">
+              <div className="relative flex h-fit w-fit items-center justify-center">
+                <Detective className="absolute z-10 h-16 w-16 animate-bounce [animation-duration:1000ms]" />
+              </div>
+            </div>
+          ) : (
+            <WordCloudCustom words={homeState.topics} />
+          )}{' '}
         </div>
       </CardContent>
     </Card>

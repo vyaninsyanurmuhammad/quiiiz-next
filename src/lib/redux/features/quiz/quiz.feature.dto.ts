@@ -1,15 +1,38 @@
-interface QuizInitialState {
+import { Summary } from '@/app/(base)/quiz/[id]/summary/_components/ui/table-column-summary';
+import { Quiz as Quizes } from '@/app/(base)/quiz/_components/ui/table-column-quiz';
+
+export interface QuizInitialState {
   playState: PlayState;
+  homeState: HomeState;
+  summaryState: SummaryState;
 }
 
-interface PlayState {
+export interface PlayState {
   quiz?: Quiz;
+  quizes: Quizes[];
   answer?: Answer;
   result?: Result;
   isLoading: boolean;
 }
 
-interface Result {
+export interface HomeState {
+  topics: Topic[];
+  isLoading: boolean;
+}
+
+export interface SummaryState {
+  topScore?: Summary;
+  latestScore?: Summary;
+  summaries: Summary[];
+  isLoading: boolean;
+}
+
+export interface Topic {
+  text: string;
+  value: number;
+}
+
+export interface Result {
   gameId: string;
   quizId: string;
   topic: string;
@@ -26,7 +49,7 @@ interface Answer {
   isCorrect: string;
 }
 
-interface Quiz {
+export interface Quiz {
   gameId: string;
   quizId: string;
   topic: string;
@@ -35,7 +58,7 @@ interface Quiz {
   amount: number;
   question?: Question;
 }
-interface Question {
+export interface Question {
   questionId: string;
   question: string;
   options: string;
