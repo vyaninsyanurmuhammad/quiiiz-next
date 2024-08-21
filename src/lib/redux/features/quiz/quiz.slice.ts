@@ -82,9 +82,12 @@ const quizSlice = createSlice({
       state.playState.isLoading = false;
     });
     // find all quiz
-    builder.addCase(QuizFindAllThunk.pending, (state) => {});
+    builder.addCase(QuizFindAllThunk.pending, (state) => {
+      state.quizState.isLoading = true;
+    });
     builder.addCase(QuizFindAllThunk.fulfilled, (state, action) => {
-      state.playState.quizes = action.payload.data;
+      state.quizState.quizes = action.payload.data;
+      state.quizState.isLoading = false;
     });
     // find all topics
     builder.addCase(QuizFindAllTopicsThunk.pending, (state) => {
@@ -102,8 +105,9 @@ const quizSlice = createSlice({
       state.summaryState.isLoading = true;
     });
     builder.addCase(QuizSummaryThunk.fulfilled, (state, action) => {
-      state.summaryState.topScore = action.payload.data.top_score;
-      state.summaryState.latestScore = action.payload.data.latest_score;
+      state.summaryState.topic = action.payload.data.topic;
+      state.summaryState.topScore = action.payload.data.topScore;
+      state.summaryState.latestScore = action.payload.data.latestScore;
       state.summaryState.summaries = action.payload.data.summaries;
       state.summaryState.isLoading = false;
     });

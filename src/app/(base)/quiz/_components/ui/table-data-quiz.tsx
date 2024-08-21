@@ -76,20 +76,21 @@ export function TableDataQuiz<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center justify-between py-4">
+      <div className="flex flex-col-reverse items-center justify-between gap-3 py-4 sm:flex-row">
         <Input
           placeholder="Filter Topic..."
           value={(table.getColumn('topic')?.getFilterValue() as string) ?? ''}
           onChange={onInputChange}
-          className="max-w-sm"
+          className="w-full sm:max-w-sm"
         />
-        <Link href={`/quiz/generate`}>
+        <Link href={`/quiz/generate`} className="w-full sm:w-fit">
           <Button3d
-            className="bg-[#84d8ff]"
+            classNameFrame="w-full sm:w-fit"
+            className="bg-[#84d8ff] w-full sm:w-fit"
             classNameShadow="bg-[#69accc]"
             onClick={onGenerate}
           >
-            Generate
+            Generate Quiz
           </Button3d>
         </Link>
       </div>

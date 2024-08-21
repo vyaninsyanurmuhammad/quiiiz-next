@@ -2,6 +2,7 @@ import { Summary } from '@/app/(base)/quiz/[id]/summary/_components/ui/table-col
 import { Quiz as Quizes } from '@/app/(base)/quiz/_components/ui/table-column-quiz';
 
 export interface QuizInitialState {
+  quizState: QuizState;
   playState: PlayState;
   homeState: HomeState;
   summaryState: SummaryState;
@@ -9,9 +10,13 @@ export interface QuizInitialState {
 
 export interface PlayState {
   quiz?: Quiz;
-  quizes: Quizes[];
   answer?: Answer;
   result?: Result;
+  isLoading: boolean;
+}
+
+export interface QuizState {
+  quizes: Quizes[];
   isLoading: boolean;
 }
 
@@ -21,6 +26,7 @@ export interface HomeState {
 }
 
 export interface SummaryState {
+  topic?: string;
   topScore?: Summary;
   latestScore?: Summary;
   summaries: Summary[];
@@ -47,6 +53,7 @@ interface Answer {
   answerId: string;
   answer: string;
   isCorrect: string;
+  correctAnswer: string;
 }
 
 export interface Quiz {

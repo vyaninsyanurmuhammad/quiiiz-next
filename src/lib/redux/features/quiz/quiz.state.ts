@@ -2,12 +2,17 @@ import {
   HomeState,
   PlayState,
   QuizInitialState,
+  QuizState,
   SummaryState,
 } from './quiz.feature.dto';
 
+const quizState: QuizState = {
+  quizes: [],
+  isLoading: false,
+};
+
 const playState: PlayState = {
   isLoading: false,
-  quizes: [],
 };
 
 const homeState: HomeState = {
@@ -24,6 +29,7 @@ export const quizInitialState: QuizInitialState = {
   playState,
   homeState,
   summaryState,
+  quizState,
 };
 
 export default quizInitialState;

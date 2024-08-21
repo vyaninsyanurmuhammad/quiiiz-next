@@ -99,7 +99,11 @@ export const columnsSummary: ColumnDef<Summary>[] = [
     cell({ row }) {
       const payment = row.original;
 
-      return <div className="flex justify-center">{payment.duration}</div>;
+      return (
+        <div className="flex justify-center text-center">
+          {payment.duration}
+        </div>
+      );
     },
   },
   {

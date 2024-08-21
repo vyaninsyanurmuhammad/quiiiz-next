@@ -75,7 +75,7 @@ const HeroSection = () => {
     <Card>
       <CardHeader>
         <CardTitle>
-          <p className="text-2xl font-bold">Welcome to Quiiiz 🐱‍👤!</p>
+          <p className="text-5xl font-extrabold text-[#58a700]">Welcome to Quiiiz 🐱‍👤!</p>
         </CardTitle>
         <div className="flex gap-2">
           <Button variant={'ghost'} className="flex items-center gap-2">

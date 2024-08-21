@@ -43,16 +43,18 @@ const TopTopicSection = () => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-col justify-between gap-6 sm:flex-row">
           <CardTitle>
-            <p className="text-2xl font-bold">Top Topic 🧩</p>
+            <p className="text-3xl font-extrabold text-[#58a700]">
+              Topik Teratas 🧩
+            </p>
           </CardTitle>
-          <Link href={`/quiz`}>
+          <Link href={`/quiz`} className="w-full sm:w-fit">
             <Button3d
-              className="flex items-center gap-2 bg-[#58cc02]"
+              className="flex w-full justify-center items-center gap-2 bg-[#58cc02] sm:w-fit"
               classNameShadow="bg-[#58a700]"
             >
-              See the list
+              Lihat Daftar
               <ListVideo />
             </Button3d>
           </Link>

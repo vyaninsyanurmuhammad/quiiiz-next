@@ -57,14 +57,14 @@ const QuizStartPage = ({ params }: { params: { id: string } }) => {
   return (
     <main className="container flex min-h-svh w-full items-center justify-center pb-8 pt-24">
       <Card className="min-w-full max-w-[640px] lg:min-w-[640px]">
-        <CardHeader>
+        <CardHeader className="pb-0">
           <CardTitle>
             <p className="text-center text-xl font-extrabold">
               {playState.quiz?.topic}
             </p>
           </CardTitle>
           <CardDescription className="text-center !mt-0">
-            {playState.quiz?.amount} questions
+            {playState.quiz?.amount} pertanyaan
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-5">
@@ -89,7 +89,7 @@ const QuizStartPage = ({ params }: { params: { id: string } }) => {
             {playState.isLoading && (
               <Loader2 className="h-5 w-5 animate-spin" />
             )}
-            Play Now <Play className="h-4 w-4 text-white" />
+            Mulai Sekarang <Play className="h-4 w-4 text-white" />
           </Button3d>
         </CardContent>
       </Card>

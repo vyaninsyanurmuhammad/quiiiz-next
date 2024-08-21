@@ -14,12 +14,12 @@ const QuizPage = () => {
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsloading] = useState<boolean>(true);
-  const { playState } = useAppSelector((state) => state.quizSlice);
+  const { playState, quizState } = useAppSelector((state) => state.quizSlice);
 
-  const topic = searchParams.get('topic')
+  const topic = searchParams.get('topic');
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading || quizState.isLoading) {
       dispatch(QuizFindAllThunk()).then((data) => {
         console.log(data.payload.data);
         if (data.payload.data) {
@@ -45,7 +45,7 @@ const QuizPage = () => {
       <TableDataQuiz
         topic={topic}
         columns={columnsQuiz}
-        data={playState.quizes}
+        data={quizState.quizes}
         isloading={isLoading}
       />
     </main>

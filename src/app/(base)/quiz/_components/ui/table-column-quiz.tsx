@@ -74,7 +74,7 @@ export const columnsQuiz: ColumnDef<Quiz>[] = [
               classNameShadow="bg-[#58a700]"
               onClick={onPlay}
             >
-              Play
+              Mulai
             </Button3d>
           </Link>
         </div>

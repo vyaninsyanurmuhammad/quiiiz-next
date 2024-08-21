@@ -155,7 +155,7 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
   return (
     <main className="container flex min-h-svh w-full items-center justify-center pb-8 pt-24">
       {playState.quiz ? (
-        <div className="flex flex-col gap-6">
+        <div className="flex w-full min-w-full max-w-[640px] flex-col gap-6 md:min-w-[640px]">
           <div className="flex flex-col gap-4">
             <div className="flex items-end justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -174,31 +174,19 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
                 <p className="text-sm">{formatTimeDelta(elapsedSeconds)}</p>
               </div>
             </div>
-            <Card className="min-w-full max-w-[640px] lg:min-w-[640px]">
+            <Card className="w-full">
               <CardContent className="flex flex-row items-center gap-5 pt-6">
                 <p>{playState.quiz.question?.question}</p>
               </CardContent>
             </Card>
             <Card className="min-w-full max-w-[640px] lg:min-w-[640px]">
-              <CardContent className="grid grid-rows-4 grid-cols-1 gap-5 pt-6">
+              <CardContent className="grid grid-cols-1 grid-rows-4 gap-5 pt-6">
                 {playState.quiz.question ? (
                   options.map((option, index) => (
-                    // <Button
-                    //   key={`${option}-${index}`}
-                    //   className="flex w-full justify-start gap-4 overflow-hidden p-0"
-                    //   variant={option === selectedAnswer ? 'default' : 'outline'}
-                    //   onClick={() => onSelectAnswer(option)}
-                    // >
-                    //   <div className="flex h-full w-8 items-center justify-center bg-black text-white">
-                    //     {index + 1}
-                    //   </div>
-                    //   <div>{option}</div>
-                    // </Button>
-
                     <Button3d
                       key={`${option}-${index}`}
                       className={cn(
-                        'flex w-full min-h-10 h-full text-start py-2 items-center justify-start gap-2 border-[1px] !bg-white',
+                        'flex h-full min-h-10 w-full items-center justify-start gap-2 border-[1px] !bg-white py-2 text-start',
                         option === selectedAnswer
                           ? 'border-[#1cb0f6] text-[#1cb0f6]'
                           : 'border-slate-300 text-slate-900',
@@ -241,7 +229,7 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
         <p>not found</p>
       )}
 
-      <Sheet open={openSheet}>
+      <Sheet open={openSheet} modal>
         <SheetContent
           side={'bottom'}
           disableCloseButton
@@ -253,33 +241,44 @@ const QuizPlayPage = ({ params }: { params: { id: string } }) => {
         >
           <DialogTitle></DialogTitle>
           <DialogDescription></DialogDescription>
-          <div className="-ml-4 flex min-w-full max-w-[640px] flex-col gap-4 px-10 pb-12 pt-6 sm:min-w-[640px] lg:min-w-[640px]">
-            <p
-              className={cn(
-                'text-2xl font-bold',
-                playState.answer?.isCorrect
-                  ? 'text-[#56a600]'
-                  : 'text-[#e73035]',
-              )}
-            >
-              {playState.answer?.isCorrect ? 'Bagus!' : 'Jangan Menyerah!'}
-            </p>
+          <div className="container flex justify-center py-8">
+            <div className="flex min-w-full max-w-[640px] flex-col gap-4 md:min-w-[640px]">
+              <p
+                className={cn(
+                  'text-2xl font-bold',
+                  playState.answer?.isCorrect
+                    ? 'text-[#56a600]'
+                    : 'text-[#e73035]',
+                )}
+              >
+                {playState.answer?.isCorrect ? 'Bagus!' : 'Jangan Menyerah!'}
+              </p>
+              <p
+                className={cn(
+                  playState.answer?.isCorrect
+                    ? 'text-[#56a600]'
+                    : 'text-[#e73035]',
+                )}
+              >
+                Answer: {playState.answer?.correctAnswer}
+              </p>
 
-            <Button3d
-              className={cn(
-                'flex w-full items-center justify-center gap-2',
-                playState.answer?.isCorrect ? 'bg-[#58cc02]' : 'bg-[#ff4b4b]',
-              )}
-              classNameShadow={cn(
-                playState.answer?.isCorrect ? 'bg-[#58a700]' : 'bg-[#ea2c2b]',
-              )}
-              classNameFrame="w-full"
-              onClick={onLanjutkan}
-            >
-              {playState.quiz?.amount === playState.quiz?.number
-                ? 'Finish'
-                : 'Lanjutkan'}
-            </Button3d>
+              <Button3d
+                className={cn(
+                  'flex w-full items-center justify-center gap-2',
+                  playState.answer?.isCorrect ? 'bg-[#58cc02]' : 'bg-[#ff4b4b]',
+                )}
+                classNameShadow={cn(
+                  playState.answer?.isCorrect ? 'bg-[#58a700]' : 'bg-[#ea2c2b]',
+                )}
+                classNameFrame="w-full"
+                onClick={onLanjutkan}
+              >
+                {playState.quiz?.amount === playState.quiz?.number
+                  ? 'Selesai'
+                  : 'Lanjutkan'}
+              </Button3d>
+            </div>
           </div>
         </SheetContent>
       </Sheet>

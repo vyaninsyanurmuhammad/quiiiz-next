@@ -12,6 +12,7 @@ import Button3d from '@/components/button-3d';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hook';
 import { QuizSummaryThunk } from '@/lib/redux/features/quiz/quiz.thunk';
 import { Skeleton } from '@/components/ui/skeleton';
+import { setLoading } from '@/lib/redux/features/quiz/quiz.slice';
 
 const QuizSummaryPage = ({ params }: { params: { id: string } }) => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ const QuizSummaryPage = ({ params }: { params: { id: string } }) => {
   return (
     <main className="container flex min-h-svh w-full flex-col pb-8 pt-24">
       <div className="flex flex-col gap-3">
-        <p className="text-lg font-semibold">My Dota 2 Summary</p>
+        <p className="text-lg font-bold">My {summaryState.topic} Summary</p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-4 md:grid-cols-5">
           <div className="grid grid-cols-1 gap-3 sm:col-span-3 md:col-span-4 md:grid-cols-2">
             <Card className="w-full">
@@ -106,21 +107,21 @@ const QuizSummaryPage = ({ params }: { params: { id: string } }) => {
               </CardContent>
             </Card>
           </div>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 pt-2">
             <Link href={`/quiz/${params.id}/start`}>
               <Button3d
                 className="w-full bg-[#58cc02]"
                 classNameShadow="bg-[#58a700]"
               >
-                {summaryState.latestScore ? 'Play Again' : 'Play'}
+                {summaryState.latestScore ? 'Mulai Lagi' : 'Mulai'}
               </Button3d>
             </Link>
-            <Link href={`/quiz`}>
+            <Link href={`/quiz`} onClick={() => setLoading(true)}>
               <Button3d
                 className="w-full bg-stone-500"
                 classNameShadow="bg-stone-600"
               >
-                Leave
+                Keluar
               </Button3d>
             </Link>
           </div>
