@@ -30,7 +30,7 @@ const TopTopicSection = () => {
   const [isLoading, setIsloading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading || homeState.isLoading) {
       dispatch(QuizFindAllTopicsThunk()).then((data) => {
         if (data.payload.data) {
           setIsloading(false);
@@ -50,7 +50,7 @@ const TopTopicSection = () => {
           </CardTitle>
           <Link href={`/quiz`} className="w-full sm:w-fit">
             <Button3d
-              className="flex w-full justify-center items-center gap-2 bg-[#58cc02] sm:w-fit"
+              className="flex w-full items-center justify-center gap-2 bg-[#58cc02] sm:w-fit"
               classNameShadow="bg-[#58a700]"
             >
               Lihat Daftar
