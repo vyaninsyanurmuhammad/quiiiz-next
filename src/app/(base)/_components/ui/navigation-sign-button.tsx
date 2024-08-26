@@ -7,10 +7,14 @@ import { useAppDispatch, useAppSelector } from '@/lib/redux/hook';
 import { Loader2 } from 'lucide-react';
 import { AuthSignOutThunk } from '@/lib/redux/features/auth/auth.thunk';
 import { deleteCookie } from 'cookies-next';
+import { useEffect, useState } from 'react';
+import { JWTPayload } from 'jose';
 
 const NavigationSignButton = () => {
   const router = useRouter();
-  const session = getSessionClient();
+  const [session, setSession] = useState<JWTPayload | null>();
+
+  // getSessionClient();
   const dispatch = useAppDispatch();
 
   const authState = useAppSelector((state) => state.authSlice);
@@ -22,9 +26,14 @@ const NavigationSignButton = () => {
   const onSignOutClickHandler = () => {
     dispatch(AuthSignOutThunk()).then(() => {
       deleteCookie('session');
+      setSession(undefined);
       router.push('/');
     });
   };
+
+  useEffect(() => {
+    setSession(getSessionClient());
+  }, [getSessionClient]);
 
   return session ? (
     <Button
