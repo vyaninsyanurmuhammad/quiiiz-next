@@ -24,7 +24,7 @@ const SignInPage = () => {
 
   return (
     <main className="container flex h-svh w-svw items-center justify-center">
-      <div className="flex max-w-[640px] flex-col gap-8 lg:min-w-[640px]">
+      <div className="flex w-full max-w-[640px] flex-col gap-8 lg:min-w-[640px]">
         {/* <Button
           className="flex h-fit gap-2 p-4"
           onClick={onGoogleSignInClickHandler}
@@ -38,7 +38,7 @@ const SignInPage = () => {
           Sign In by Google
         </Button> */}
         <div className="flex flex-col gap-4">
-          <p className="text-6xl font-extrabold text-[#58a700]">
+          <p className="text-wrap text-3xl font-extrabold text-[#58a700] sm:text-4xl md:text-6xl">
             Tantang Pengetahuanmu, Raih Skor Terbaik!
           </p>
           <p>Sign in hanya butuh kurang dari 2 menit</p>

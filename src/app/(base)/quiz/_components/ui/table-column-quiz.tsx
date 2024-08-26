@@ -16,6 +16,29 @@ export type Quiz = {
   amount: number;
 };
 
+const CellAction = ({ quizId }: { quizId: string }) => {
+  const dispatch = useAppDispatch();
+
+  const onPlay = () => {
+    dispatch(setLoading(true));
+  };
+
+  return (
+    <div className="flex gap-4">
+      <Link href={`/quiz/${quizId}/start`}>
+        <Button3d
+          className="bg-[#58cc02]"
+          classNameShadow="bg-[#58a700]"
+          onClick={onPlay}
+        >
+          Mulai
+        </Button3d>
+      </Link>
+    </div>
+  );
+};
+
+
 export const columnsQuiz: ColumnDef<Quiz>[] = [
   {
     accessorKey: 'topic',
@@ -60,24 +83,8 @@ export const columnsQuiz: ColumnDef<Quiz>[] = [
     cell: ({ row }) => {
       const payment = row.original;
 
-      const dispatch = useAppDispatch();
-
-      const onPlay = () => {
-        dispatch(setLoading(true));
-      };
-
       return (
-        <div className="flex gap-4">
-          <Link href={`/quiz/${payment.quizId}/start`}>
-            <Button3d
-              className="bg-[#58cc02]"
-              classNameShadow="bg-[#58a700]"
-              onClick={onPlay}
-            >
-              Mulai
-            </Button3d>
-          </Link>
-        </div>
+        <CellAction quizId={payment.quizId} />
       );
     },
   },

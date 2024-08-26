@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { TableDataQuiz } from './_components/ui/table-data-quiz';
 import { columnsQuiz, Quiz } from './_components/ui/table-column-quiz';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hook';
@@ -51,4 +51,18 @@ const QuizPage = () => {
   );
 };
 
-export default QuizPage;
+const SuspendedQuizPage = () => (
+  <Suspense
+    fallback={
+      <main className="flex h-svh w-full items-center justify-center">
+        <div className="relative flex h-fit w-fit items-center justify-center">
+          <Detective className="absolute z-10 h-16 w-16 animate-bounce [animation-duration:1000ms]" />
+        </div>
+      </main>
+    }
+  >
+    <QuizPage />
+  </Suspense>
+);
+
+export default SuspendedQuizPage;
