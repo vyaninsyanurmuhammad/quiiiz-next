@@ -50,7 +50,7 @@ const QuizSummaryPage = ({ params }: { params: { id: string } }) => {
                     <Skeleton className="h-[60px] w-[100px]" />
                   ) : summaryState.topScore ? (
                     <p className="text-6xl font-extrabold">
-                      {summaryState.topScore.score}
+                      {summaryState.topScore.score.toFixed(2)}
                       <span className="text-base">%</span>
                     </p>
                   ) : (
@@ -84,7 +84,7 @@ const QuizSummaryPage = ({ params }: { params: { id: string } }) => {
                     <Skeleton className="h-[60px] w-[100px]" />
                   ) : summaryState.topScore ? (
                     <p className="text-6xl font-extrabold">
-                      {summaryState.latestScore?.score}
+                      {summaryState.latestScore?.score.toFixed(2)}
                       <span className="text-base">%</span>
                     </p>
                   ) : (
